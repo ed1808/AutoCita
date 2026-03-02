@@ -4,7 +4,7 @@ namespace AutoCita.Models
 {
     internal class Cita
     {
-        public string Id;
+        public Guid Id;
         public string MotivoSolicitud;
         public DateTime FechaHoraInicio;
         public int DuracionMinutos;
@@ -12,7 +12,7 @@ namespace AutoCita.Models
         public EstadoCita Estado;
         public string Observaciones;
 
-        public Cita(string id, string motivoSolicitud, DateTime fechaHoraInicio, int duracionMinutos, EstadoCita estado, string observaciones)
+        public Cita(Guid id, string motivoSolicitud, DateTime fechaHoraInicio, int duracionMinutos, EstadoCita estado, string observaciones)
         {
             Id = id;
             MotivoSolicitud = motivoSolicitud;

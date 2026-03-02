@@ -9,34 +9,48 @@ namespace AutoCita.Models
         public string PasswordHash;
         public bool Estado;
 
-        public Usuario(string id, string nombre, string apellido, string telefono, string email, DateOnly fechaNacimiento, string numeroDocumento, TipoDocumento tipoDocumento, string nombreUsuario, string passwordHash, bool estado) : base(id, nombre, apellido, telefono, email, fechaNacimiento, numeroDocumento, tipoDocumento)
+        public Usuario(Guid id, string nombre, string apellido, string telefono, string email, DateOnly fechaNacimiento, string numeroDocumento, 
+            TipoDocumento tipoDocumento, string nombreUsuario, string passwordHash, bool estado) 
+            : base(id, nombre, apellido, telefono, email, fechaNacimiento, numeroDocumento, tipoDocumento)
         {
             NombreUsuario = nombreUsuario;
             PasswordHash = passwordHash;
             Estado = estado;
         }
 
-        public bool CrearUsuario()
+        public override bool ValidarInformacion()
         {
-            // Lógica para crear un nuevo usuario en la base de datos
+            if (
+                string.IsNullOrWhiteSpace(Nombre) || string.IsNullOrWhiteSpace(Apellido) || string.IsNullOrWhiteSpace(Telefono) || 
+                string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(NumeroDocumento) || string.IsNullOrWhiteSpace(NombreUsuario) || 
+                string.IsNullOrWhiteSpace(PasswordHash)
+            )
+            {
+                return false;
+            }
+
+            bool passwordValida = VerificarPassword(PasswordHash);
+
+            if (!passwordValida)
+            {
+                return false;
+            }
+
+            bool emailValido = Email.Contains('@');
+
+            if (!emailValido)
+            {
+                return false;
+            }
+
             return true;
         }
 
-        public bool ActualizarUsuario(string? telefono, string? email, string? passwordHash)
+        private bool VerificarPassword(string password)
         {
-            // Lógica para actualizar la información del usuario en la base de datos
-            return true;
-        }
-
-        public bool Login(string password)
-        {
-            // Lógica para verificar el password ingresado con el PasswordHash almacenado
-            return true;
-        }
-
-        public void Logout()
-        {
-            // Lógica para cerrar la sesión del usuario
+            // Aquí se debería implementar la lógica para verificar el hash de la contraseña
+            // Por simplicidad, vamos a comparar directamente el hash (esto no es seguro en un entorno real)
+            return PasswordHash == password;
         }
     }
 }

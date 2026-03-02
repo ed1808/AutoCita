@@ -6,7 +6,8 @@ namespace AutoCita.Models
     {
         public string Tipo;
 
-        public Motocicleta(string id, string vin, string placa, string marca, string linea, int modelo, int kilometraje, Cliente propietario, string tipo) : base(id, vin, placa, marca, linea, modelo, kilometraje, propietario)
+        public Motocicleta(Guid id, string vin, string placa, string marca, string linea, int modelo, int kilometraje, Cliente propietario, string tipo) 
+            : base(id, vin, placa, marca, linea, modelo, kilometraje, propietario)
         {
             Tipo = tipo;
         }
@@ -14,6 +15,19 @@ namespace AutoCita.Models
         public override string GetInfo()
         {
             return $"Motocicleta: {Marca} {Linea} ({Modelo}), Placa: {Placa}, VIN: {Vin}, Tipo: {Tipo}, Kilometraje: {Kilometraje}";
+        }
+
+        public override bool ValidarInformacion()
+        {
+            if (
+                string.IsNullOrWhiteSpace(Vin) || string.IsNullOrWhiteSpace(Placa) || string.IsNullOrWhiteSpace(Marca) || 
+                string.IsNullOrWhiteSpace(Linea) ||  string.IsNullOrWhiteSpace(Tipo)
+            )
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
