@@ -4,7 +4,7 @@ namespace AutoCita.Abstractions
 {
     internal abstract class Vehiculo
     {
-        protected string Id;
+        protected Guid Id;
         protected string Vin;
         protected string Placa;
         protected string Marca;
@@ -14,7 +14,7 @@ namespace AutoCita.Abstractions
         protected Cliente Propietario;
         protected List<Cita> HistorialCitas;
 
-        protected Vehiculo(string id, string vin, string placa, string marca, string linea, int modelo, int kilometraje, Cliente propietario)
+        protected Vehiculo(Guid id, string vin, string placa, string marca, string linea, int modelo, int kilometraje, Cliente propietario)
         {
             Id = id;
             Vin = vin;
@@ -28,6 +28,8 @@ namespace AutoCita.Abstractions
         }
 
         public abstract string GetInfo();
+
+        public abstract bool ValidarInformacion();
 
         public virtual void ActualizarKilometraje(int nuevoKilometraje)
         {

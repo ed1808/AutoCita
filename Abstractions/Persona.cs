@@ -4,7 +4,7 @@ namespace AutoCita.Abstractions
 {
     internal abstract class Persona
     {
-        protected string Id;
+        protected Guid Id;
         protected string Nombre;
         protected string Apellido;
         protected string Telefono;
@@ -13,7 +13,7 @@ namespace AutoCita.Abstractions
         protected string NumeroDocumento;
         protected TipoDocumento TipoDocumento;
 
-        protected Persona(string id, string nombre, string apellido, string telefono, string email, DateOnly fechaNacimiento, string numeroDocumento, TipoDocumento tipoDocumento)
+        protected Persona(Guid id, string nombre, string apellido, string telefono, string email, DateOnly fechaNacimiento, string numeroDocumento, TipoDocumento tipoDocumento)
         {
             Id = id;
             Nombre = nombre;
@@ -47,5 +47,7 @@ namespace AutoCita.Abstractions
 
             return age;
         }
+
+        public abstract bool ValidarInformacion();
     }
 }
