@@ -1,15 +1,17 @@
-﻿using AutoCita.Abstractions;
+﻿using System.Text.Json.Serialization;
+using AutoCita.Abstractions;
 
 namespace AutoCita.Models
 {
     internal class Camioneta : Vehiculo
     {
-        public bool EsDobleTraccion;
-        public double CapacidadCarga;
+        public bool EsDobleTraccion { get; set; }
+        public double CapacidadCarga { get; set; }
 
-        public Camioneta(Guid id, string vin, string placa, string marca, string linea, int modelo, int kilometraje, Cliente propietario,
+        [JsonConstructor]
+        public Camioneta(Guid id, string vin, string placa, string marca, string linea, int modelo, int kilometraje, Guid propietarioId,
             bool esDobleTraccion, double capacidadCarga)
-            : base(id, vin, placa, marca, linea, modelo, kilometraje, propietario)
+            : base(id, vin, placa, marca, linea, modelo, kilometraje, propietarioId)
         {
             EsDobleTraccion = esDobleTraccion;
             CapacidadCarga = capacidadCarga;

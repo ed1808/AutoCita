@@ -1,13 +1,15 @@
-﻿using AutoCita.Abstractions;
+﻿using System.Text.Json.Serialization;
+using AutoCita.Abstractions;
 
 namespace AutoCita.Models
 {
     internal class Motocicleta : Vehiculo
     {
-        public string Tipo;
+        public string Tipo { get; set; }
 
-        public Motocicleta(Guid id, string vin, string placa, string marca, string linea, int modelo, int kilometraje, Cliente propietario, string tipo) 
-            : base(id, vin, placa, marca, linea, modelo, kilometraje, propietario)
+        [JsonConstructor]
+        public Motocicleta(Guid id, string vin, string placa, string marca, string linea, int modelo, int kilometraje, Guid propietarioId, string tipo) 
+            : base(id, vin, placa, marca, linea, modelo, kilometraje, propietarioId)
         {
             Tipo = tipo;
         }

@@ -1,20 +1,26 @@
-﻿using AutoCita.Enums;
+﻿using System.Text.Json.Serialization;
+using AutoCita.Enums;
 
 namespace AutoCita.Models
 {
     internal class Cita
     {
-        public Guid Id;
-        public string MotivoSolicitud;
-        public DateTime FechaHoraInicio;
-        public int DuracionMinutos;
-        public DateTime FechaHoraFin;
-        public EstadoCita Estado;
-        public string Observaciones;
+        public Guid Id { get; set; }
+        public Guid ClienteId { get; set; }
+        public Guid VehiculoId { get; set; }
+        public string MotivoSolicitud { get; set; }
+        public DateTime FechaHoraInicio { get; set; }
+        public int DuracionMinutos { get; set; }
+        public DateTime FechaHoraFin { get; set; }
+        public EstadoCita Estado { get; set; }
+        public string Observaciones { get; set; }
 
-        public Cita(Guid id, string motivoSolicitud, DateTime fechaHoraInicio, int duracionMinutos, EstadoCita estado, string observaciones)
+        [JsonConstructor]
+        public Cita(Guid id, Guid clienteId, Guid vehiculoId, string motivoSolicitud, DateTime fechaHoraInicio, int duracionMinutos, EstadoCita estado, string observaciones)
         {
             Id = id;
+            ClienteId = clienteId;
+            VehiculoId = vehiculoId;
             MotivoSolicitud = motivoSolicitud;
             FechaHoraInicio = fechaHoraInicio;
             DuracionMinutos = duracionMinutos;
@@ -32,6 +38,11 @@ namespace AutoCita.Models
         {
             FechaHoraInicio = nuevaFechaHoraInicio;
             FechaHoraFin = CalcularFechaHoraFin();
+        }
+
+        public void ActualizarEstado(EstadoCita nuevoEstado)
+        {
+            Estado = nuevoEstado;
         }
 
         public void Cancelar(string motivoCancelacion)

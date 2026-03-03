@@ -1,14 +1,16 @@
-﻿using AutoCita.Abstractions;
+﻿using System.Text.Json.Serialization;
+using AutoCita.Abstractions;
 using AutoCita.Enums;
 
 namespace AutoCita.Models
 {
     internal class Usuario : Persona
     {
-        public string NombreUsuario;
-        public string PasswordHash;
-        public bool Estado;
+        public string NombreUsuario { get; set; }
+        public string PasswordHash { get; set; }
+        public bool Estado { get; set; }
 
+        [JsonConstructor]
         public Usuario(Guid id, string nombre, string apellido, string telefono, string email, DateOnly fechaNacimiento, string numeroDocumento, 
             TipoDocumento tipoDocumento, string nombreUsuario, string passwordHash, bool estado) 
             : base(id, nombre, apellido, telefono, email, fechaNacimiento, numeroDocumento, tipoDocumento)
@@ -21,17 +23,10 @@ namespace AutoCita.Models
         public override bool ValidarInformacion()
         {
             if (
-                string.IsNullOrWhiteSpace(Nombre) || string.IsNullOrWhiteSpace(Apellido) || string.IsNullOrWhiteSpace(Telefono) || 
-                string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(NumeroDocumento) || string.IsNullOrWhiteSpace(NombreUsuario) || 
-                string.IsNullOrWhiteSpace(PasswordHash)
+                string.IsNullOrEmpty(Nombre.Trim()) || string.IsNullOrEmpty(Apellido.Trim()) || string.IsNullOrEmpty(Telefono.Trim()) || 
+                string.IsNullOrEmpty(Email.Trim()) || string.IsNullOrEmpty(NumeroDocumento.Trim()) || string.IsNullOrEmpty(NombreUsuario.Trim()) || 
+                string.IsNullOrEmpty(PasswordHash.Trim())
             )
-            {
-                return false;
-            }
-
-            bool passwordValida = VerificarPassword(PasswordHash);
-
-            if (!passwordValida)
             {
                 return false;
             }
@@ -46,11 +41,20 @@ namespace AutoCita.Models
             return true;
         }
 
-        private bool VerificarPassword(string password)
+        public void ActualizarInformacion(string telefono, string email, string numeroDocumento, TipoDocumento tipoDocumento, string nombreUsuario, string passwordHash, bool estado)
         {
-            // Aquí se debería implementar la lógica para verificar el hash de la contraseña
-            // Por simplicidad, vamos a comparar directamente el hash (esto no es seguro en un entorno real)
-            return PasswordHash == password;
+            bool informacionValida = ValidarInformacion();
+
+            if (informacionValida)
+            {
+                Telefono = telefono;
+                Email = email;
+                NumeroDocumento = numeroDocumento;
+                TipoDocumento = tipoDocumento;
+                NombreUsuario = nombreUsuario;
+                PasswordHash = passwordHash;
+                Estado = estado;
+            }
         }
     }
 }
