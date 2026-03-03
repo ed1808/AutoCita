@@ -4,9 +4,11 @@ namespace AutoCita.Interfaces
 {
     internal interface IVehicleRepository
     {
-        bool AddVehicle(Vehiculo vehicle);
-        List<Vehiculo> GetVehicles();
-        Vehiculo? GetVehicle(string plate);
-        bool UpdateVehicle(Vehiculo vehicle);
+        Task<bool> AddVehicle(Vehiculo vehicle);
+        Task<List<Vehiculo>> GetVehicles();
+        Task<Vehiculo?> GetVehicle(Guid id);
+        Task<Vehiculo?> GetVehicleByPlate(string plate);
+        Task<List<Vehiculo>> GetVehiclesByCustomer(Guid customerId);
+        Task<bool> UpdateVehicle(Vehiculo vehicle);
     }
 }

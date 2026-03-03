@@ -4,9 +4,10 @@ namespace AutoCita.Interfaces
 {
     internal interface ICustomerRepository
     {
-        bool AddCustomer(Cliente customer);
-        List<Cliente> GetCustomers();
-        Cliente? GetCustomer(string id);
-        bool UpdateCustomer(Cliente customer);
+        Task<bool> AddCustomer(Cliente customer);
+        Task<List<Cliente>> GetCustomers();
+        Task<Cliente?> GetCustomer(Guid id);
+        Task<Cliente?> GetCustomerByDocument(string documentNumber);
+        Task<bool> UpdateCustomer(Cliente customer);
     }
 }

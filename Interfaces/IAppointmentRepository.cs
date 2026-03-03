@@ -4,9 +4,11 @@ namespace AutoCita.Interfaces
 {
     internal interface IAppointmentRepository
     {
-        bool AddAppointment(Cita appointment);
-        List<Cita> GetAppointments();
-        Cita? GetAppointment(string id);
-        bool UpdateAppointment(Cita appointment);
+        Task<bool> AddAppointment(Cita appointment);
+        Task<List<Cita>> GetAppointments();
+        Task<Cita?> GetAppointment(Guid id);
+        Task<List<Cita>> GetAppointmentsByCustomer(Guid customerId);
+        Task<List<Cita>> GetAppointmentsByVehicle(Guid vehicleId);
+        Task<bool> UpdateAppointment(Cita appointment);
     }
 }
