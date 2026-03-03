@@ -4,14 +4,14 @@ namespace AutoCita.Abstractions
 {
     internal abstract class Persona
     {
-        protected Guid Id;
-        protected string Nombre;
-        protected string Apellido;
-        protected string Telefono;
-        protected string Email;
-        protected DateOnly FechaNacimiento;
-        protected string NumeroDocumento;
-        protected TipoDocumento TipoDocumento;
+        public Guid Id { get; private set; }
+        public string Nombre { get; private set; }
+        public string Apellido { get; private set; }
+        public string Telefono { get; protected set; }
+        public string Email { get; protected set; }
+        public DateOnly FechaNacimiento { get; private set; }
+        public string NumeroDocumento { get; protected set; }
+        public TipoDocumento TipoDocumento { get; protected set; }
 
         protected Persona(Guid id, string nombre, string apellido, string telefono, string email, DateOnly fechaNacimiento, string numeroDocumento, TipoDocumento tipoDocumento)
         {

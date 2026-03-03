@@ -12,33 +12,45 @@ namespace AutoCita.Abstractions
             _dataSource = dataSource;
         }
 
-        public bool AddCustomer(Cliente customer)
+        public async Task<bool> AddCustomer(Cliente customer)
         {
-            return SaveCustomerToDataSource(customer);
+            if (!customer.ValidarInformacion())
+            {
+                return false;
+            }
+
+            return await PersistNewCustomer(customer);
         }
 
-        public Cliente? GetCustomer(string id)
+        public async Task<List<Cliente>> GetCustomers()
         {
-            GetCustomerFromDataSource(id);
-
-            return null;
+            return await LoadAllCustomers();
         }
 
-        public List<Cliente> GetCustomers()
+        public async Task<Cliente?> GetCustomer(Guid id)
         {
-            GetCustomersFromDataSource();
-
-            return [];
+            return await LoadCustomerById(id);
         }
 
-        public bool UpdateCustomer(Cliente customer)
+        public async Task<Cliente?> GetCustomerByDocument(string documentNumber)
         {
-            return UpdateCustomerInDataSource(customer);
+            return await LoadCustomerByDocument(documentNumber);
         }
 
-        protected abstract bool SaveCustomerToDataSource(Cliente customer);
-        protected abstract void GetCustomersFromDataSource();
-        protected abstract void GetCustomerFromDataSource(string id);
-        protected abstract bool UpdateCustomerInDataSource(Cliente customer);
+        public async Task<bool> UpdateCustomer(Cliente customer)
+        {
+            if (!customer.ValidarInformacion())
+            {
+                return false;
+            }
+
+            return await PersistUpdatedCustomer(customer);
+        }
+
+        protected abstract Task<bool> PersistNewCustomer(Cliente customer);
+        protected abstract Task<List<Cliente>> LoadAllCustomers();
+        protected abstract Task<Cliente?> LoadCustomerById(Guid id);
+        protected abstract Task<Cliente?> LoadCustomerByDocument(string documentNumber);
+        protected abstract Task<bool> PersistUpdatedCustomer(Cliente customer);
     }
 }

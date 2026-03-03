@@ -11,33 +11,51 @@ namespace AutoCita.Abstractions
             _dataSource = dataSource;
         }
 
-        public bool AddVehicle(Vehiculo vehicle)
+        public async Task<bool> AddVehicle(Vehiculo vehicle)
         {
-            return SaveVehicleToDataSource(vehicle);
+            if (!vehicle.ValidarInformacion())
+            {
+                return false;
+            }
+
+            return await PersistNewVehicle(vehicle);
         }
 
-        public Vehiculo? GetVehicle(string plate)
+        public async Task<Vehiculo?> GetVehicle(Guid id)
         {
-            GetVehicleFromDataSource(plate);
-
-            return null;
+            return await LoadVehicleById(id);
         }
 
-        public List<Vehiculo> GetVehicles()
+        public async Task<Vehiculo?> GetVehicleByPlate(string plate)
         {
-            GetVehiclesFromDataSource();
-
-            return [];
+            return await LoadVehicleByPlate(plate);
         }
 
-        public bool UpdateVehicle(Vehiculo vehicle)
+        public async Task<List<Vehiculo>> GetVehicles()
         {
-            return UpdateVehicleInDataSource(vehicle);
+            return await LoadAllVehicles();
         }
 
-        protected abstract bool SaveVehicleToDataSource(Vehiculo vehicle);
-        protected abstract void GetVehiclesFromDataSource();
-        protected abstract void GetVehicleFromDataSource(string plate);
-        protected abstract bool UpdateVehicleInDataSource(Vehiculo vehicle);
+        public async Task<List<Vehiculo>> GetVehiclesByCustomer(Guid customerId)
+        {
+            return await LoadVehiclesByCustomer(customerId);
+        }
+
+        public async Task<bool> UpdateVehicle(Vehiculo vehicle)
+        {
+            if (!vehicle.ValidarInformacion())
+            {
+                return false;
+            }
+
+            return await PersistUpdatedVehicle(vehicle);
+        }
+
+        protected abstract Task<bool> PersistNewVehicle(Vehiculo vehicle);
+        protected abstract Task<List<Vehiculo>> LoadAllVehicles();
+        protected abstract Task<Vehiculo?> LoadVehicleById(Guid id);
+        protected abstract Task<Vehiculo?> LoadVehicleByPlate(string plate);
+        protected abstract Task<List<Vehiculo>> LoadVehiclesByCustomer(Guid customerId);
+        protected abstract Task<bool> PersistUpdatedVehicle(Vehiculo vehicle);
     }
 }

@@ -12,33 +12,41 @@ namespace AutoCita.Abstractions
             _dataSource = dataSource;
         }
 
-        public bool AddAppointment(Cita appointment)
+        public async Task<bool> AddAppointment(Cita appointment)
         {
-            return SaveAppointmentToDataSource(appointment);
+            return await PersistNewAppointment(appointment);
         }
 
-        public Cita? GetAppointment(string id)
+        public async Task<Cita?> GetAppointment(Guid id)
         {
-            GetAppointmentFromDataSource(id);
-
-            return null;
+            return await LoadAppointmentById(id);
         }
 
-        public List<Cita> GetAppointments()
+        public async Task<List<Cita>> GetAppointments()
         {
-            GetAppointmentsFromDataSource();
-
-            return [];
+            return await LoadAllAppointments();
         }
 
-        public bool UpdateAppointment(Cita appointment)
+        public async Task<List<Cita>> GetAppointmentsByCustomer(Guid customerId)
         {
-            return UpdateAppointmentFromDataSource(appointment);
+            return await LoadAppointmentsByCustomer(customerId);
         }
 
-        protected abstract bool SaveAppointmentToDataSource(Cita appointment);
-        protected abstract void GetAppointmentsFromDataSource();
-        protected abstract void GetAppointmentFromDataSource(string id);
-        protected abstract bool UpdateAppointmentFromDataSource(Cita appointment);
+        public async Task<List<Cita>> GetAppointmentsByVehicle(Guid vehicleId)
+        {
+            return await LoadAppointmentsByVehicle(vehicleId);
+        }
+
+        public async Task<bool> UpdateAppointment(Cita appointment)
+        {
+            return await PersistUpdatedAppointment(appointment);
+        }
+
+        protected abstract Task<bool> PersistNewAppointment(Cita appointment);
+        protected abstract Task<List<Cita>> LoadAllAppointments();
+        protected abstract Task<Cita?> LoadAppointmentById(Guid id);
+        protected abstract Task<List<Cita>> LoadAppointmentsByCustomer(Guid customerId);
+        protected abstract Task<List<Cita>> LoadAppointmentsByVehicle(Guid vehicleId);
+        protected abstract Task<bool> PersistUpdatedAppointment(Cita appointment);
     }
 }

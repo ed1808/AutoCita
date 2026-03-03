@@ -1,20 +1,25 @@
-﻿using AutoCita.Models;
+﻿using System.Text.Json.Serialization;
+using AutoCita.Models;
 
 namespace AutoCita.Abstractions
 {
+    [JsonPolymorphic(TypeDiscriminatorPropertyName = "tipoVehiculo")]
+    [JsonDerivedType(typeof(Automovil), "automovil")]
+    [JsonDerivedType(typeof(Camion), "camion")]
+    [JsonDerivedType(typeof(Camioneta), "camioneta")]
+    [JsonDerivedType(typeof(Motocicleta), "motocicleta")]
     internal abstract class Vehiculo
     {
-        protected Guid Id;
-        protected string Vin;
-        protected string Placa;
-        protected string Marca;
-        protected string Linea;
-        protected int Modelo;
-        protected int Kilometraje;
-        protected Cliente Propietario;
-        protected List<Cita> HistorialCitas;
+        public Guid Id { get; set; }
+        public string Vin { get; set; }
+        public string Placa { get; set; }
+        public string Marca { get; set; }
+        public string Linea { get; set; }
+        public int Modelo { get; set; }
+        public int Kilometraje { get; set; }
+        public Guid PropietarioId { get; set; }
 
-        protected Vehiculo(Guid id, string vin, string placa, string marca, string linea, int modelo, int kilometraje, Cliente propietario)
+        protected Vehiculo(Guid id, string vin, string placa, string marca, string linea, int modelo, int kilometraje, Guid propietarioId)
         {
             Id = id;
             Vin = vin;
@@ -23,8 +28,7 @@ namespace AutoCita.Abstractions
             Linea = linea;
             Modelo = modelo;
             Kilometraje = kilometraje;
-            Propietario = propietario;
-            HistorialCitas = [];
+            PropietarioId = propietarioId;
         }
 
         public abstract string GetInfo();
@@ -37,11 +41,6 @@ namespace AutoCita.Abstractions
             {
                 Kilometraje = nuevoKilometraje;
             }
-        }
-
-        public virtual void AsignarPropietario(Cliente nuevoPropietario)
-        {
-            Propietario = nuevoPropietario;
         }
     }
 }
