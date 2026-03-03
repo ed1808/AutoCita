@@ -1,4 +1,5 @@
 ﻿using AutoCita.Abstractions;
+using AutoCita.FileHandler;
 
 namespace AutoCita.Repositories.FileSystemRepository
 {
@@ -7,30 +8,54 @@ namespace AutoCita.Repositories.FileSystemRepository
         public JsonVehicleRepository() : base(Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             "AutoCita",
-            "Vehiculos",
-            "index.json"
+            "Data",
+            "vehiculos.json"
         ))
         {
         }
 
-        protected override void GetVehicleFromDataSource(string plate)
+        protected override async Task<List<Vehiculo>> LoadAllVehicles()
         {
-            throw new NotImplementedException();
+            return await FileHandler<List<Vehiculo>>.GetData(_dataSource) ?? [];
         }
 
-        protected override void GetVehiclesFromDataSource()
+        protected override async Task<Vehiculo?> LoadVehicleById(Guid id)
         {
-            throw new NotImplementedException();
+            var vehicles = await LoadAllVehicles();
+            return vehicles.FirstOrDefault(v => v.Id == id);
         }
 
-        protected override bool SaveVehicleToDataSource(Vehiculo vehicle)
+        protected override async Task<Vehiculo?> LoadVehicleByPlate(string plate)
         {
-            throw new NotImplementedException();
+            var vehicles = await LoadAllVehicles();
+            return vehicles.FirstOrDefault(v => v.Placa.Equals(plate, StringComparison.OrdinalIgnoreCase));
         }
 
-        protected override bool UpdateVehicleInDataSource(Vehiculo vehicle)
+        protected override async Task<List<Vehiculo>> LoadVehiclesByCustomer(Guid customerId)
         {
-            throw new NotImplementedException();
+            var vehicles = await LoadAllVehicles();
+            return vehicles.Where(v => v.PropietarioId == customerId).ToList();
+        }
+
+        protected override async Task<bool> PersistNewVehicle(Vehiculo vehicle)
+        {
+            var vehicles = await LoadAllVehicles();
+            vehicles.Add(vehicle);
+            return await FileHandler<List<Vehiculo>>.SaveData(_dataSource, vehicles);
+        }
+
+        protected override async Task<bool> PersistUpdatedVehicle(Vehiculo vehicle)
+        {
+            var vehicles = await LoadAllVehicles();
+            var index = vehicles.FindIndex(v => v.Id == vehicle.Id);
+
+            if (index < 0)
+            {
+                return false;
+            }
+
+            vehicles[index] = vehicle;
+            return await FileHandler<List<Vehiculo>>.SaveData(_dataSource, vehicles);
         }
     }
 }

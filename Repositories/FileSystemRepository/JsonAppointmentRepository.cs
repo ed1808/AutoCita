@@ -1,4 +1,5 @@
 ﻿using AutoCita.Abstractions;
+using AutoCita.FileHandler;
 using AutoCita.Models;
 
 namespace AutoCita.Repositories.FileSystemRepository
@@ -8,30 +9,54 @@ namespace AutoCita.Repositories.FileSystemRepository
         public JsonAppointmentRepository() : base(Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
             "AutoCita",
-            "Citas",
-            "index.json"
+            "Data",
+            "citas.json"
         ))
         {
         }
 
-        protected override void GetAppointmentFromDataSource(string id)
+        protected override async Task<List<Cita>> LoadAllAppointments()
         {
-            throw new NotImplementedException();
+            return await FileHandler<List<Cita>>.GetData(_dataSource) ?? [];
         }
 
-        protected override void GetAppointmentsFromDataSource()
+        protected override async Task<Cita?> LoadAppointmentById(Guid id)
         {
-            throw new NotImplementedException();
+            var appointments = await LoadAllAppointments();
+            return appointments.FirstOrDefault(a => a.Id == id);
         }
 
-        protected override bool SaveAppointmentToDataSource(Cita appointment)
+        protected override async Task<List<Cita>> LoadAppointmentsByCustomer(Guid customerId)
         {
-            throw new NotImplementedException();
+            var appointments = await LoadAllAppointments();
+            return appointments.Where(a => a.ClienteId == customerId).ToList();
         }
 
-        protected override bool UpdateAppointmentFromDataSource(Cita appointment)
+        protected override async Task<List<Cita>> LoadAppointmentsByVehicle(Guid vehicleId)
         {
-            throw new NotImplementedException();
+            var appointments = await LoadAllAppointments();
+            return appointments.Where(a => a.VehiculoId == vehicleId).ToList();
+        }
+
+        protected override async Task<bool> PersistNewAppointment(Cita appointment)
+        {
+            var appointments = await LoadAllAppointments();
+            appointments.Add(appointment);
+            return await FileHandler<List<Cita>>.SaveData(_dataSource, appointments);
+        }
+
+        protected override async Task<bool> PersistUpdatedAppointment(Cita appointment)
+        {
+            var appointments = await LoadAllAppointments();
+            var index = appointments.FindIndex(a => a.Id == appointment.Id);
+
+            if (index < 0)
+            {
+                return false;
+            }
+
+            appointments[index] = appointment;
+            return await FileHandler<List<Cita>>.SaveData(_dataSource, appointments);
         }
     }
 }
