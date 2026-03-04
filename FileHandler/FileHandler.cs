@@ -23,7 +23,7 @@ namespace AutoCita.FileHandler
                 }
 
                 using var stream = File.OpenRead(filePath);
-                return await JsonSerializer.DeserializeAsync<T>(stream);
+                return await JsonSerializer.DeserializeAsync<T>(stream, _jsonOptions);
             } catch (Exception e)
             {
                 Console.WriteLine($"Ha ocurrido un error: {e.Message}");
