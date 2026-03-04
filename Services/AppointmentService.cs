@@ -139,5 +139,34 @@ namespace AutoCita.Services
 
             return await _appointmentRepository.UpdateAppointment(cita);
         }
+
+        public async Task<bool> ActualizarEstadoCita(Guid id, EstadoCita nuevoEstado)
+        {
+            var cita = await _appointmentRepository.GetAppointment(id);
+
+            if (cita is null)
+            {
+                return false;
+            }
+
+            // Validar transiciones de estado permitidas
+            bool transicionValida = (cita.Estado, nuevoEstado) switch
+            {
+                (EstadoCita.PROGRAMADA, EstadoCita.EN_PROCESO) => true,
+                (EstadoCita.PROGRAMADA, EstadoCita.NO_ASISTIO) => true,
+                (EstadoCita.PROGRAMADA, EstadoCita.CANCELADA) => true,
+                (EstadoCita.EN_PROCESO, EstadoCita.FINALIZADA) => true,
+                (EstadoCita.EN_PROCESO, EstadoCita.CANCELADA) => true,
+                _ => false
+            };
+
+            if (!transicionValida)
+            {
+                return false;
+            }
+
+            cita.ActualizarEstado(nuevoEstado);
+            return await _appointmentRepository.UpdateAppointment(cita);
+        }
     }
 }
