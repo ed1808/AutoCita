@@ -13,5 +13,6 @@ namespace AutoCita.Interfaces
         Task<bool> ActualizarCita(Cita appointment);
         Task<bool> CancelarCita(Guid id, string motivoCancelacion);
         Task<bool> ReprogramarCita(Guid id, DateTime nuevaFechaHoraInicio);
+        Task<bool> ActualizarEstadoCita(Guid id, EstadoCita nuevoEstado);
     }
 }
