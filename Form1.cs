@@ -8,6 +8,9 @@ namespace AutoCita
         private readonly IVehicleService _vehicleService;
         private readonly IAppointmentService _appointmentService;
 
+
+        private const string fontFamily = "Segoe UI";
+
         private Panel sideNav = null!;
         private Button btnCitas = null!;
         private Button btnClientes = null!;
@@ -125,7 +128,7 @@ namespace AutoCita
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = Color.White,
                 BackColor = Color.FromArgb(45, 45, 48),
-                Font = new Font("Segoe UI", 11, FontStyle.Regular),
+                Font = new Font(fontFamily, 11, FontStyle.Regular),
                 Cursor = Cursors.Hand,
                 Tag = pagina,
                 FlatAppearance =
@@ -141,7 +144,7 @@ namespace AutoCita
         private static Label CreateFieldLabel(string text) => new()
         {
             Text = text,
-            Font = new Font("Segoe UI", 9.5f),
+            Font = new Font(fontFamily, 9.5f),
             AutoSize = true,
             Anchor = AnchorStyles.Left,
             Margin = new Padding(4, 8, 4, 4)
@@ -150,7 +153,7 @@ namespace AutoCita
         private static TextBox CreateTextBox() => new()
         {
             Dock = DockStyle.Fill,
-            Font = new Font("Segoe UI", 9.5f),
+            Font = new Font(fontFamily, 9.5f),
             Margin = new Padding(4)
         };
 
@@ -162,7 +165,7 @@ namespace AutoCita
             FlatStyle = FlatStyle.Flat,
             BackColor = backColor,
             ForeColor = Color.White,
-            Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
+            Font = new Font(fontFamily, 9.5f, FontStyle.Bold),
             Cursor = Cursors.Hand,
             Margin = new Padding(4),
             FlatAppearance = { BorderSize = 0 }
@@ -180,10 +183,10 @@ namespace AutoCita
             BackgroundColor = Color.White,
             BorderStyle = BorderStyle.None,
             RowHeadersVisible = false,
-            Font = new Font("Segoe UI", 9),
+            Font = new Font(fontFamily, 9),
             ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
             {
-                Font = new Font("Segoe UI", 9.5f, FontStyle.Bold),
+                Font = new Font(fontFamily, 9.5f, FontStyle.Bold),
                 BackColor = Color.FromArgb(45, 45, 48),
                 ForeColor = Color.White,
                 SelectionBackColor = Color.FromArgb(45, 45, 48),
@@ -201,7 +204,7 @@ namespace AutoCita
         /// <summary>
         /// Helper class for ComboBox items that store a Guid ID with display text.
         /// </summary>
-        private class ComboItem
+        private sealed class ComboItem
         {
             public Guid Id { get; }
             public string DisplayText { get; }

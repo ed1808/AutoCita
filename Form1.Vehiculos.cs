@@ -48,7 +48,7 @@ namespace AutoCita
             var lblTitulo = new Label
             {
                 Text = "  Gestión de Vehículos",
-                Font = new Font("Segoe UI", 18, FontStyle.Bold),
+                Font = new Font(fontFamily, 18, FontStyle.Bold),
                 ForeColor = Color.FromArgb(45, 45, 48),
                 Dock = DockStyle.Top,
                 Height = 50,
@@ -80,7 +80,7 @@ namespace AutoCita
             {
                 Dock = DockStyle.Fill,
                 DropDownStyle = ComboBoxStyle.DropDownList,
-                Font = new Font("Segoe UI", 9.5f),
+                Font = new Font(fontFamily, 9.5f),
                 Margin = new Padding(4)
             };
             cmbVehiculoTipo.Items.AddRange(["Automóvil", "Camión", "Camioneta", "Motocicleta"]);
@@ -90,7 +90,7 @@ namespace AutoCita
             {
                 Dock = DockStyle.Fill,
                 DropDownStyle = ComboBoxStyle.DropDownList,
-                Font = new Font("Segoe UI", 9.5f),
+                Font = new Font(fontFamily, 9.5f),
                 Margin = new Padding(4)
             };
 
@@ -122,7 +122,7 @@ namespace AutoCita
                 Minimum = 1900,
                 Maximum = 2030,
                 Value = DateTime.Now.Year,
-                Font = new Font("Segoe UI", 9.5f),
+                Font = new Font(fontFamily, 9.5f),
                 Margin = new Padding(4)
             };
             nudVehiculoKilometraje = new NumericUpDown
@@ -130,7 +130,7 @@ namespace AutoCita
                 Dock = DockStyle.Fill,
                 Minimum = 0,
                 Maximum = 9999999,
-                Font = new Font("Segoe UI", 9.5f),
+                Font = new Font(fontFamily, 9.5f),
                 Margin = new Padding(4)
             };
             table.Controls.Add(CreateFieldLabel("Modelo (Año):"), 0, 3);
@@ -214,7 +214,7 @@ namespace AutoCita
                     nudAutoPuertas = new NumericUpDown
                     {
                         Dock = DockStyle.Fill, Minimum = 1, Maximum = 6, Value = 4,
-                        Font = new Font("Segoe UI", 9.5f), Margin = new Padding(4)
+                        Font = new Font(fontFamily, 9.5f), Margin = new Padding(4)
                     };
                     txtAutoCombustible = CreateTextBox();
                     txtAutoTransmision = CreateTextBox();
@@ -230,13 +230,13 @@ namespace AutoCita
                     nudCamionEjes = new NumericUpDown
                     {
                         Dock = DockStyle.Fill, Minimum = 2, Maximum = 12, Value = 2,
-                        Font = new Font("Segoe UI", 9.5f), Margin = new Padding(4)
+                        Font = new Font(fontFamily, 9.5f), Margin = new Padding(4)
                     };
                     txtCamionTipoCarga = CreateTextBox();
                     nudCamionCapacidad = new NumericUpDown
                     {
                         Dock = DockStyle.Fill, Minimum = 0, Maximum = 100000, DecimalPlaces = 2,
-                        Font = new Font("Segoe UI", 9.5f), Margin = new Padding(4)
+                        Font = new Font(fontFamily, 9.5f), Margin = new Padding(4)
                     };
                     extraTable.Controls.Add(CreateFieldLabel("N° Ejes:"), 0, 0);
                     extraTable.Controls.Add(nudCamionEjes, 1, 0);
@@ -251,13 +251,13 @@ namespace AutoCita
                     {
                         Text = "Doble Tracción",
                         Dock = DockStyle.Fill,
-                        Font = new Font("Segoe UI", 9.5f),
+                        Font = new Font(fontFamily, 9.5f),
                         Margin = new Padding(4)
                     };
                     nudCamionetaCapacidad = new NumericUpDown
                     {
                         Dock = DockStyle.Fill, Minimum = 0, Maximum = 100000, DecimalPlaces = 2,
-                        Font = new Font("Segoe UI", 9.5f), Margin = new Padding(4)
+                        Font = new Font(fontFamily, 9.5f), Margin = new Padding(4)
                     };
                     extraTable.Controls.Add(chkCamionetaDobleTraccion, 0, 0);
                     extraTable.SetColumnSpan(chkCamionetaDobleTraccion, 2);
